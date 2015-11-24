@@ -68,6 +68,7 @@ class Status;
 // when it has not responded to a number of successive keep-alive messages). Transience
 // is tracked per-topic-per-subscriber, so two different subscribers may treat the same
 // topic differently wrt to the transience of their updates.
+// 订阅是按照区分订阅者和主题的
 //
 // The statestore tracks the history of updates to each topic, with each topic update
 // getting a sequentially increasing version number that is unique across the topic.
@@ -76,6 +77,7 @@ class Status;
 // processed. The statestore can use this information to send a delta of updates to a
 // subscriber, rather than all items in the topic.  For non-delta updates, the statestore
 // will send an update that includes all values in the topic.
+// 订阅会进行增量同步
 class Statestore {
  public:
   // A SubscriberId uniquely identifies a single subscriber, and is
@@ -107,7 +109,6 @@ class Statestore {
   void RegisterWebpages(Webserver* webserver);
 
   // The main processing loop. Blocks until the exit flag is set.
-  //
   // Returns OK unless there is an unrecoverable error.
   Status MainLoop();
 
